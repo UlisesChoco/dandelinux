@@ -1,14 +1,12 @@
 #pragma once
 
+#include "Tamagotchi.h"
 #include "UIComponents.h"
 #include "UIRenderer.h"
 
-#define WINDOW_TITLE  "Hello, SDL3!"
-#define WINDOW_WIDTH  800
-#define WINDOW_HEIGHT 640
-
 class Game {
     private:
+        Tamagotchi m_t;
         UIComponents m_uc;
         UIRenderer m_ur;
 

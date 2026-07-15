@@ -1,4 +1,5 @@
 #include <iostream>
+#include <SDL3/SDL.h>
 #include <SDL3/SDL_init.h>
 #include <SDL3/SDL_video.h>
 #include <SDL3/SDL_render.h>
@@ -8,18 +9,21 @@ Game::Game()
     : m_uc(
         std::vector<Button> {
             Button(
-                WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2,
-                100, 100,
-                []() { std::cout<<"Clicked 1st button!\n"; }
+                "Feed!",
+                0.0f, 25.0f,
+                100, 50,
+                [this]() { m_t.feed(); }
             ),
             Button(
-                125 + WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2,
-                100, 100,
-                []() { std::cout<<"Clicked 2nd button!\n"; }
+                "Rest!",
+                0.0f, 75,
+                100, 50,
+                [this]() { m_t.sleep(); }
             )
         }
       ),
-      m_ur() { }
+      m_ur(),
+      m_t(Tamagotchi()) { }
 
 void Game::run() {
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS)) {
@@ -40,6 +44,7 @@ void Game::run() {
         exit(1);
     }
 
+    Uint64 timeElapsed = 1;
     bool running = true;
     while (running) {
         SDL_Event event;
@@ -51,9 +56,30 @@ void Game::run() {
             }
             m_uc.fireEvents(&event);
         }
+
+        switch (m_t.state()) {
+            case TamagotchiState::IDLE: {
+                std::cout << "Idling!\n";
+                break;
+            }
+            case TamagotchiState::RESTING: {
+                std::cout << "Resting!\n";
+                break;
+            }
+        }
+
+        Uint64 currentTimeInSeconds = SDL_GetTicks() / 1000.0f;
+        //debugging purposes ! ! ! ! 0-0
+        //std::cout << "currentTimeInSeconds = " << currentTimeInSeconds << "\n";
+        //std::cout << "timeElapsed = " << timeElapsed << "\n";
+
+        if (currentTimeInSeconds >= timeElapsed) {
+            m_t.updateState();
+            timeElapsed++;
+        }
         
         m_ur.clean(renderer);
-        m_ur.render(renderer, m_uc);
+        m_ur.render(renderer, m_uc, m_t);
     }
 
     SDL_DestroyRenderer(renderer);

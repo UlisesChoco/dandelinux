@@ -1,8 +1,8 @@
 #include "Button.h"
 #include <iostream>
 
-Button::Button(float x, float y, float w, float h, std::function<void()> callback)
-    : m_x{x}, m_y{y}, m_w{w}, m_h{h}, m_onClick{std::move(callback)} { }
+Button::Button(std::string title, float x, float y, float w, float h, std::function<void()> callback)
+    : m_title{title}, m_x{x}, m_y{y}, m_w{w}, m_h{h}, m_onClick{std::move(callback)} { }
 
 void Button::onMouseEnter(float mouseX, float mouseY) {
     if (m_x <= mouseX && mouseX <= m_x + m_w
@@ -21,6 +21,8 @@ void Button::onMouseClick(float mouseX, float mouseY) {
         m_onClick();
     }
 }
+
+std::string Button::title() const { return m_title; }
 
 float Button::x() const { return m_x; }
 
