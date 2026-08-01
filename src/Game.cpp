@@ -10,13 +10,13 @@ Game::Game()
         std::vector<Button> {
             Button(
                 "Feed!",
-                0.0f, 25.0f,
+                (WINDOW_WIDTH / 2) - 100, (WINDOW_HEIGHT - 50) - 25,
                 100, 50,
                 [this]() { m_t.feed(); }
             ),
             Button(
                 "Rest!",
-                0.0f, 75,
+                (WINDOW_WIDTH / 2) + 100, (WINDOW_HEIGHT - 50) - 25,
                 100, 50,
                 [this]() { m_t.sleep(); }
             )

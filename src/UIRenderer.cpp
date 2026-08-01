@@ -1,5 +1,6 @@
 #include <SDL3/SDL_render.h>
 #include "UIRenderer.h"
+#include <iostream>
 
 UIRenderer::UIRenderer() { }
 
@@ -36,6 +37,14 @@ void UIRenderer::drawButton(SDL_Renderer *r, const Button& b) {
 
 void UIRenderer::drawTamagotchi(SDL_Renderer *r, const Tamagotchi& t) {
     SDL_SetRenderDrawColor(r, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    
+    //example of loading an image
+    //SDL_Surface* s = SDL_LoadPNG("test.png");
+    //SDL_Texture* tx = SDL_CreateTextureFromSurface(r, s);
+    //SDL_DestroySurface(s);
+    //SDL_RenderTexture(r, tx, NULL, NULL);
+    //SDL_DestroyTexture(tx);
+
     SDL_RenderDebugTextFormat(
         r,
         0, 0,
@@ -52,3 +61,5 @@ void UIRenderer::drawTamagotchi(SDL_Renderer *r, const Tamagotchi& t) {
         "Current State: %d", t.state()
     );
 }
+
+SDL_Texture UIRenderer::idleImage() const { return m_idleImage; }

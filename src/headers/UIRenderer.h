@@ -10,6 +10,8 @@
 
 class UIRenderer {
     private:
+        SDL_Texture m_idleImage;
+
         void drawButton(SDL_Renderer *r, const Button& b);
         void drawTamagotchi(SDL_Renderer *r, const Tamagotchi& t);
 
@@ -17,4 +19,6 @@ class UIRenderer {
         UIRenderer();
         void clean(SDL_Renderer *r);
         void render(SDL_Renderer *r, const UIComponents &uc, const Tamagotchi &t);
+
+        SDL_Texture idleImage() const;
 };
